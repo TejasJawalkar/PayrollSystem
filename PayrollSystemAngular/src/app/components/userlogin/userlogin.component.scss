@@ -1,6 +1,7 @@
 .container, .container-lg, .container-md, .container-sm, .container-xl {
   max-width: 840px;
   height: 200%;
+  margin-top: 8rem;
 }
 
 .card{
@@ -58,21 +59,22 @@ img:hover {
   transition: all 0.3s;
 }
 @media (max-width: 576px) {
+.container, .container-lg, .container-md, .container-sm, .container-xl {
+    max-width: 100%;
+    margin-top: -1rem;
+  }
+
   .card{
     margin-top: 30px;
-    height: 40rem;
+    height: 35rem;
   }
   .formwrapper{
-    padding: 20px 10px;
+    padding: 0px 10px;
   }
   img{
-    height: 18rem;    
+    height: 16rem;    
     max-width: 18rem;
   }
 }
 
 
-/* Desktop and above styles */
-@media (min-width: 992px) {
-  
-}

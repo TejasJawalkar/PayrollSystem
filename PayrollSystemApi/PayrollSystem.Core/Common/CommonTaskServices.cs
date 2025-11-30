@@ -1,12 +1,11 @@
 ﻿#region Imports
+using System.Data;
 using Dapper;
-using Microsoft.EntityFrameworkCore;
 using PayrollSystem.Core.Logs;
 using PayrollSystem.Data.Common;
 using PayrollSystem.Entity.InputOutput.Common;
 using PayrollSystem.Entity.InputOutput.Employee;
 using PayrollSystem.Entity.InputOutput.System;
-using System.Data;
 #endregion
 
 namespace PayrollSystem.Core.Common
@@ -37,7 +36,7 @@ namespace PayrollSystem.Core.Common
             outputList.Roles = new List<RolesOutput>();
             try
             {
-                outputList.Roles = _DbsContext.Roles.Select(r => new RolesOutput
+                outputList.Roles = _DbsContext.TblRoles.Select(r => new RolesOutput
                 {
                     RoleId = r.RoleId,
                     Role = r.Role,
@@ -63,7 +62,7 @@ namespace PayrollSystem.Core.Common
             outputList.Departments = new List<DepartmentOutput>();
             try
             {
-                outputList.Departments = _DbsContext.Departments.Select(r => new DepartmentOutput
+                outputList.Departments = _DbsContext.TblDepartments.Select(r => new DepartmentOutput
                 {
                     DepartmentId = r.DepartmentId,
                     DepartementName = r.DepartementName
@@ -143,7 +142,7 @@ namespace PayrollSystem.Core.Common
             OutputOrganization outputOrganization = new OutputOrganization();
             try
             {
-                outputOrganization = (from o in _DbsContext.Oragnizations
+                outputOrganization = (from o in _DbsContext.TblOragnizations
                                       where o.OrgnisationID == OrganizationId
                                       select new OutputOrganization
                                       {
@@ -160,13 +159,13 @@ namespace PayrollSystem.Core.Common
                                           OrgnisationCeo = o.OrgnisationCeo,
                                           CeoMobileNo = o.CeoMobileNo,
                                           CeoEmail = o.CeoEmail,
-                                          OrgnisationGstNo=o.OrgnisationGstNo,
-                                          OrgnisationStartTime=  o.OrgnisationStartTime,
-                                          OrgnisationEndTime =o.OrgnisationEndTime,
+                                          OrgnisationGstNo = o.OrgnisationGstNo,
+                                          OrgnisationStartTime = o.OrgnisationStartTime,
+                                          OrgnisationEndTime = o.OrgnisationEndTime,
+                                      }).FirstOrDefault() ?? new OutputOrganization();
 
-                                      }).FirstOrDefault();
 
-        }
+            }
             catch (Exception ex)
             {
 
@@ -174,11 +173,11 @@ namespace PayrollSystem.Core.Common
                     Convert.ToString(_httpContextAccessor.HttpContext.Request.RouteValues["Action"]),
                     ex.Message,
                     _httpContextAccessor.HttpContext.Request.Host.Value.Trim());
-        response.ObjectStatusCode = Entity.InputOutput.Common.StatusCodes.UnknowError;
+                response.ObjectStatusCode = Entity.InputOutput.Common.StatusCodes.UnknowError;
                 response.Message += "Employee Not Found";
             }
             return await Task.FromResult(outputOrganization);
-}
+        }
         #endregion
 
     }

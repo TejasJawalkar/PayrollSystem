@@ -38,7 +38,7 @@ namespace PayrollSystem.Controllers
                     IsActive = true,
                     SystemRegisteredDate = DateTime.Now,
                 };
-                _bsContext.Oragnizations.Add(organization);
+                _bsContext.TblOragnizations.Add(organization);
                 _bsContext.SaveChanges();
                 return Ok(new { message = "Organisation Saved" });
             }
@@ -59,7 +59,7 @@ namespace PayrollSystem.Controllers
                     Role = RoleName,
                 };
 
-                _bsContext.Roles.Add(roles);
+                _bsContext.TblRoles.Add(roles);
                 _bsContext.SaveChanges();
                 return Ok(new { message = "Role Added" });
             }
@@ -79,7 +79,7 @@ namespace PayrollSystem.Controllers
                 {
                     DepartementName = departmentNm
                 };
-                _bsContext.Departments.Add(department);
+                _bsContext.TblDepartments.Add(department);
                 _bsContext.SaveChanges();
                 return Ok(new { message = "Department Added" });
             }
@@ -96,7 +96,7 @@ namespace PayrollSystem.Controllers
         {
             try
             {
-                var departments = _bsContext.Departments.ToList();
+                var departments = _bsContext.TblDepartments.ToList();
                 return Ok(departments);
             }
             catch (Exception)

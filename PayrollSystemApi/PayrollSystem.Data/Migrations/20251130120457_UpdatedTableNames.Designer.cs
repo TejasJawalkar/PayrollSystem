@@ -3,17 +3,19 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PayrollSystem.Data.Common;
 
 #nullable disable
 
-namespace PayrollSystem.Migrations
+namespace PayrollSystem.Data.Migrations
 {
     [DbContext(typeof(DbsContext))]
-    partial class DbsContextModelSnapshot : ModelSnapshot
+    [Migration("20251130120457_UpdatedTableNames")]
+    partial class UpdatedTableNames
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -62,7 +64,7 @@ namespace PayrollSystem.Migrations
 
                     b.HasIndex("EmployeeId");
 
-                    b.ToTable("DailyTimeSheet");
+                    b.ToTable("TblDailyTimeSheet");
                 });
 
             modelBuilder.Entity("PayrollSystem.Entity.Models.Employee.Department", b =>
@@ -80,7 +82,7 @@ namespace PayrollSystem.Migrations
 
                     b.HasKey("DepartmentId");
 
-                    b.ToTable("Departments");
+                    b.ToTable("TblDepartments");
                 });
 
             modelBuilder.Entity("PayrollSystem.Entity.Models.Employee.Designation", b =>
@@ -102,7 +104,7 @@ namespace PayrollSystem.Migrations
 
                     b.HasKey("RoleId");
 
-                    b.ToTable("Roles");
+                    b.ToTable("TblRoles");
                 });
 
             modelBuilder.Entity("PayrollSystem.Entity.Models.Employee.Employee", b =>
@@ -139,7 +141,7 @@ namespace PayrollSystem.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("Employee");
+                    b.ToTable("TblEmployee");
                 });
 
             modelBuilder.Entity("PayrollSystem.Entity.Models.Employee.EmployeeDetails", b =>
@@ -186,7 +188,7 @@ namespace PayrollSystem.Migrations
                     b.HasIndex("EmployeeId")
                         .IsUnique();
 
-                    b.ToTable("EmployeeDetails");
+                    b.ToTable("TblEmployeeDetails");
                 });
 
             modelBuilder.Entity("PayrollSystem.Entity.Models.Employee.EmployeeLeavesAssigned", b =>
@@ -202,7 +204,7 @@ namespace PayrollSystem.Migrations
 
                     b.HasKey("EmployeeLeavesAssignedId");
 
-                    b.ToTable("YearlyLeavesAssigned");
+                    b.ToTable("EmployeeLeavesAssigned");
                 });
 
             modelBuilder.Entity("PayrollSystem.Entity.Models.Employee.EmployeeManagers", b =>
@@ -217,7 +219,7 @@ namespace PayrollSystem.Migrations
 
                     b.HasIndex("ManagerId");
 
-                    b.ToTable("EmployeeManagers");
+                    b.ToTable("TblEmployeeManagers");
                 });
 
             modelBuilder.Entity("PayrollSystem.Entity.Models.Employee.EmployeeSecurity", b =>
@@ -318,7 +320,7 @@ namespace PayrollSystem.Migrations
 
                     b.HasKey("OrgnisationID");
 
-                    b.ToTable("Oragnizations");
+                    b.ToTable("TblOragnizations");
                 });
 
             modelBuilder.Entity("PayrollSystem.Entity.Models.Employee.PaymentData", b =>
@@ -340,7 +342,7 @@ namespace PayrollSystem.Migrations
 
                     b.HasKey("PaymentID");
 
-                    b.ToTable("PaymentDetails");
+                    b.ToTable("TblPaymentDetails");
                 });
 
             modelBuilder.Entity("PayrollSystem.Entity.Models.Employee.ReportingManagers", b =>
@@ -359,7 +361,7 @@ namespace PayrollSystem.Migrations
                     b.HasIndex("EmployeeId")
                         .IsUnique();
 
-                    b.ToTable("Managers");
+                    b.ToTable("TblManagers");
                 });
 
             modelBuilder.Entity("PayrollSystem.Entity.Models.Employee.UserLeave", b =>
@@ -414,7 +416,7 @@ namespace PayrollSystem.Migrations
 
                     b.HasIndex("EmployeeId");
 
-                    b.ToTable("EmployeeLeaves");
+                    b.ToTable("TblEmployeeLeaves");
                 });
 
             modelBuilder.Entity("PayrollSystem.Entity.Models.Logging.ExceptionLog", b =>
@@ -450,7 +452,7 @@ namespace PayrollSystem.Migrations
 
                     b.HasKey("ExceptionId");
 
-                    b.ToTable("ExceptionLogs");
+                    b.ToTable("TsyExceptionLogs");
                 });
 
             modelBuilder.Entity("PayrollSystem.Entity.Models.Logging.UserLogs", b =>
@@ -481,7 +483,7 @@ namespace PayrollSystem.Migrations
 
                     b.HasKey("LogID");
 
-                    b.ToTable("UserLogs");
+                    b.ToTable("TsyUserLogs");
                 });
 
             modelBuilder.Entity("PayrollSystem.Entity.Models.Models.SystemConfigurationModel.RoutingNavigationChildModel", b =>
@@ -511,7 +513,7 @@ namespace PayrollSystem.Migrations
 
                     b.HasIndex("MainRouteId");
 
-                    b.ToTable("RoutingNavigationChild");
+                    b.ToTable("TblRoutingNavigationChild");
                 });
 
             modelBuilder.Entity("PayrollSystem.Entity.Models.Models.SystemConfigurationModel.RoutingNavigationModel", b =>
@@ -536,7 +538,7 @@ namespace PayrollSystem.Migrations
 
                     b.HasKey("MainRouteId");
 
-                    b.ToTable("RoutingNavigationMain");
+                    b.ToTable("TblRoutingNavigationMain");
                 });
 
             modelBuilder.Entity("PayrollSystem.Entity.Models.Employee.DailyTimeSheet", b =>
