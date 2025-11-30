@@ -1,0 +1,66 @@
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using PayrollSystem.Business.HR;
+using PayrollSystem.Entity.InputOutput.Common;
+using PayrollSystem.Entity.InputOutput.HR;
+using System.Security.Claims;
+
+
+namespace PayrollSystem.Controllers
+{
+
+    public class HRController : Controller
+    {
+        #region Object Declaration
+        private readonly IBussHrServices _hrServices;
+        #endregion
+
+        #region Constructor
+        public HRController(IBussHrServices hrServices)
+        {
+            _hrServices = hrServices;
+        }
+        #endregion
+
+        #region RegisterNewEmployee
+        [HttpPost]
+        [Route("/Admin/RegisterNewEmployee")]
+        [Authorize(Roles = "2,3,1,6")]
+        public async Task<JsonResult> RegisterNewEmployee(NewEmployeeInput newEmployeeInput)
+        {
+            ResponseModel response = new ResponseModel();
+            try
+            {
+                var currentUser = HttpContext.User;
+                var roles = HttpContext.User.Claims.Where(c => c.Type == ClaimTypes.Role).Select(c => c.Value);
+                Console.WriteLine(string.Join(",", roles));
+
+                Int64 EmployeeId = Convert.ToInt64(currentUser.Claims.First(c => c.Type == "EmployeeId").Value);
+                if (EmployeeId != 0)
+                {
+                    if (newEmployeeInput.OrgnisationID != 0 || newEmployeeInput.DepartmentId != 0 || !string.IsNullOrEmpty(newEmployeeInput.OrganisationEmail) || !string.IsNullOrEmpty(newEmployeeInput.EmployeeName) | !string.IsNullOrEmpty(newEmployeeInput.PersonalEmail) || !string.IsNullOrEmpty(newEmployeeInput.Mobile) || newEmployeeInput.RoleId != 0)
+                    {
+                        await _hrServices.RegisterNewEmployee(newEmployeeInput, response);
+                    }
+                    else
+                    {
+                        response.ObjectStatusCode = Entity.InputOutput.Common.StatusCodes.EmptyData;
+                        response.Message = "Something is missing";
+                    }
+                }
+                else
+                {
+                    response.ObjectStatusCode = Entity.InputOutput.Common.StatusCodes.UnAuthorized;
+                    response.Message = "Token is Empty";
+                }
+            }
+            catch (Exception ex)
+            {
+                response.Message = "Internal Server Error";
+                response.ObjectStatusCode = Entity.InputOutput.Common.StatusCodes.UnknowError;
+            }
+            return Json(response);
+        }
+        #endregion
+    }
+}
