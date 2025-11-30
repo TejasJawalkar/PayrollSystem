@@ -192,45 +192,6 @@ namespace PayrollSystem.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "EmployeeLeavesAssigned",
-                columns: table => new
-                {
-                    EmployeeLeavesAssignedId = table.Column<long>(type: "bigint", nullable: false),
-                    TotalLeaves = table.Column<double>(type: "float", nullable: false),
-                    ForYear = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_EmployeeLeavesAssigned", x => x.EmployeeLeavesAssignedId);
-                    table.ForeignKey(
-                        name: "FK_EmployeeLeavesAssigned_TblEmployee_EmployeeLeavesAssignedId",
-                        column: x => x.EmployeeLeavesAssignedId,
-                        principalTable: "TblEmployee",
-                        principalColumn: "EmployeeId",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "EmployeeSecurity",
-                columns: table => new
-                {
-                    UserSecurityId = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    EmployeeId = table.Column<long>(type: "bigint", nullable: false),
-                    UserPassword = table.Column<byte[]>(type: "varbinary(max)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_EmployeeSecurity", x => x.UserSecurityId);
-                    table.ForeignKey(
-                        name: "FK_EmployeeSecurity_TblEmployee_EmployeeId",
-                        column: x => x.EmployeeId,
-                        principalTable: "TblEmployee",
-                        principalColumn: "EmployeeId",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "TblDailyTimeSheet",
                 columns: table => new
                 {
@@ -314,6 +275,45 @@ namespace PayrollSystem.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "TblEmployeeLeavesAssigned",
+                columns: table => new
+                {
+                    EmployeeLeavesAssignedId = table.Column<long>(type: "bigint", nullable: false),
+                    TotalLeaves = table.Column<double>(type: "float", nullable: false),
+                    ForYear = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TblEmployeeLeavesAssigned", x => x.EmployeeLeavesAssignedId);
+                    table.ForeignKey(
+                        name: "FK_TblEmployeeLeavesAssigned_TblEmployee_EmployeeLeavesAssignedId",
+                        column: x => x.EmployeeLeavesAssignedId,
+                        principalTable: "TblEmployee",
+                        principalColumn: "EmployeeId",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "TblEmployeeSecurity",
+                columns: table => new
+                {
+                    UserSecurityId = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    EmployeeId = table.Column<long>(type: "bigint", nullable: false),
+                    UserPassword = table.Column<byte[]>(type: "varbinary(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TblEmployeeSecurity", x => x.UserSecurityId);
+                    table.ForeignKey(
+                        name: "FK_TblEmployeeSecurity_TblEmployee_EmployeeId",
+                        column: x => x.EmployeeId,
+                        principalTable: "TblEmployee",
+                        principalColumn: "EmployeeId",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "TblManagers",
                 columns: table => new
                 {
@@ -355,12 +355,6 @@ namespace PayrollSystem.Data.Migrations
                         principalColumn: "ManagerID",
                         onDelete: ReferentialAction.Restrict);
                 });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_EmployeeSecurity_EmployeeId",
-                table: "EmployeeSecurity",
-                column: "EmployeeId",
-                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_TblDailyTimeSheet_EmployeeId",
@@ -405,6 +399,12 @@ namespace PayrollSystem.Data.Migrations
                 column: "ManagerId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_TblEmployeeSecurity_EmployeeId",
+                table: "TblEmployeeSecurity",
+                column: "EmployeeId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_TblManagers_EmployeeId",
                 table: "TblManagers",
                 column: "EmployeeId",
@@ -419,12 +419,6 @@ namespace PayrollSystem.Data.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "EmployeeLeavesAssigned");
-
-            migrationBuilder.DropTable(
-                name: "EmployeeSecurity");
-
-            migrationBuilder.DropTable(
                 name: "TblDailyTimeSheet");
 
             migrationBuilder.DropTable(
@@ -434,7 +428,13 @@ namespace PayrollSystem.Data.Migrations
                 name: "TblEmployeeLeaves");
 
             migrationBuilder.DropTable(
+                name: "TblEmployeeLeavesAssigned");
+
+            migrationBuilder.DropTable(
                 name: "TblEmployeeManagers");
+
+            migrationBuilder.DropTable(
+                name: "TblEmployeeSecurity");
 
             migrationBuilder.DropTable(
                 name: "TblRoutingNavigationChild");

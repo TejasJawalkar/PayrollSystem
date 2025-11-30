@@ -12,8 +12,8 @@ using PayrollSystem.Data.Common;
 namespace PayrollSystem.Data.Migrations
 {
     [DbContext(typeof(DbsContext))]
-    [Migration("20251130120457_UpdatedTableNames")]
-    partial class UpdatedTableNames
+    [Migration("20251130141640_AddedCreatedDateTimeinuserlog")]
+    partial class AddedCreatedDateTimeinuserlog
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -204,7 +204,7 @@ namespace PayrollSystem.Data.Migrations
 
                     b.HasKey("EmployeeLeavesAssignedId");
 
-                    b.ToTable("EmployeeLeavesAssigned");
+                    b.ToTable("TblEmployeeLeavesAssigned");
                 });
 
             modelBuilder.Entity("PayrollSystem.Entity.Models.Employee.EmployeeManagers", b =>
@@ -242,7 +242,7 @@ namespace PayrollSystem.Data.Migrations
                     b.HasIndex("EmployeeId")
                         .IsUnique();
 
-                    b.ToTable("EmployeeSecurity");
+                    b.ToTable("TblEmployeeSecurity");
                 });
 
             modelBuilder.Entity("PayrollSystem.Entity.Models.Employee.Orgnisations", b =>
@@ -472,6 +472,9 @@ namespace PayrollSystem.Data.Migrations
                         .IsRequired()
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
+
+                    b.Property<DateTime>("CreatedDateTime")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("IdAddress")
                         .IsRequired()

@@ -27,6 +27,9 @@ namespace PayrollSystem.Data.Common
         public DbSet<EmployeeDetails> TblEmployeeDetails { get; set; }
         public DbSet<RoutingNavigationModel> TblRoutingNavigationMain { get; set; }
         public DbSet<RoutingNavigationChildModel> TblRoutingNavigationChild { get; set; }
+        public DbSet<EmployeeSecurity> TblEmployeeSecurity { get; set; }
+        public DbSet<EmployeeLeavesAssigned> TblEmployeeLeavesAssigned { get; set; }
+
         #endregion
 
         #region OnModelCreating

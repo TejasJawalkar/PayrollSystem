@@ -17,5 +17,6 @@ namespace PayrollSystem.Entity.Models.Logging
         [Required]
         [MaxLength(500)]
         public String Comment { get; set; }
+        public DateTime CreatedDateTime { get; set; }
     }
 }

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PayrollSystem.Data.Common;
 
@@ -11,9 +12,10 @@ using PayrollSystem.Data.Common;
 namespace PayrollSystem.Data.Migrations
 {
     [DbContext(typeof(DbsContext))]
-    partial class DbsContextModelSnapshot : ModelSnapshot
+    [Migration("20251130134047_UpdatedTableNames")]
+    partial class UpdatedTableNames
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -470,9 +472,6 @@ namespace PayrollSystem.Data.Migrations
                         .IsRequired()
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
-
-                    b.Property<DateTime>("CreatedDateTime")
-                        .HasColumnType("datetime2");
 
                     b.Property<string>("IdAddress")
                         .IsRequired()

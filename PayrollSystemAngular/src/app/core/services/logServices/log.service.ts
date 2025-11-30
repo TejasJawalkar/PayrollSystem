@@ -54,7 +54,7 @@ export class LogService {
     let ipaddress = '';
     const response = await fetch('https://api.ipify.org?format=json');
     const data = await response.json();
-    ipaddress = data.ip;
+    ipaddress = data.ip;TsyUserLogs
     return ipaddress;
   }
 

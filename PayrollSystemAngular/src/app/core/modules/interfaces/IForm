@@ -1,0 +1,10 @@
+interface IFormService {
+  ClassName: string;
+  MethodName: string;
+  Exception: string;
+  SiteName: string;
+
+  //#region  Method
+  Save(): void;
+  //#endregion
+}
