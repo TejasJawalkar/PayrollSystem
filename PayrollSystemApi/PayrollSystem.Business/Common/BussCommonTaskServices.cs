@@ -8,14 +8,14 @@ using PayrollSystem.Entity.InputOutput.System;
 
 namespace PayrollSystem.Business.Common
 {
-    public class BussCommonTaskServices  : IBussCommonTaskServices
+    public class BussCommonTaskServices : IBussCommonTaskServices
     {
         #region Object Declaration
         private readonly ILogServices _logServices;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly ICommonTaskServices _CommonTaskServices;
         #endregion
-        
+
         #region Constructor
         public BussCommonTaskServices(ICommonTaskServices CommonTaskServices, ILogServices logServices, IHttpContextAccessor httpContextAccessor)
         {
@@ -51,11 +51,11 @@ namespace PayrollSystem.Business.Common
         #region GetRoles
         public async Task GetRoles(ResponseModel response)
         {
-            OutputList outputList = new OutputList();   
+            OutputList outputList = new OutputList();
             try
             {
-                outputList= await _CommonTaskServices.GetRoles(response);
-                if (response.ObjectStatusCode != Entity.InputOutput.Common.StatusCodes.UnknowError) 
+                outputList = await _CommonTaskServices.GetRoles(response);
+                if (response.ObjectStatusCode != Entity.InputOutput.Common.StatusCodes.UnknowError)
                 {
                     response.ObjectStatusCode = Entity.InputOutput.Common.StatusCodes.Success;
                     response.Message += "Roles List";
@@ -118,7 +118,7 @@ namespace PayrollSystem.Business.Common
                     response.Message += "Employee Details";
                     response.ObjectStatusCode = Entity.InputOutput.Common.StatusCodes.Success;
                 }
-               
+
                 response.Data = employeeDetails;
             }
             catch (Exception ex)
@@ -134,18 +134,18 @@ namespace PayrollSystem.Business.Common
         #endregion
 
         #region GetOrganisationDetails
-        public async Task GetOrganisationDetails(Int64 OrganisationId,ResponseModel response)
+        public async Task GetOrganisationDetails(Int64 OrganisationId, ResponseModel response)
         {
-            OutputOrganization organization = new OutputOrganization();
+            OrganizationOutput organization = new OrganizationOutput();
             try
             {
-                organization = await _CommonTaskServices.GetOrganisationDetails(OrganisationId,response);
-                if (response.ObjectStatusCode!=Entity.InputOutput.Common.StatusCodes.UnknowError) 
+                organization = await _CommonTaskServices.GetOrganisationDetails(OrganisationId, response);
+                if (response.ObjectStatusCode != Entity.InputOutput.Common.StatusCodes.UnknowError)
                 {
                     response.ObjectStatusCode = Entity.InputOutput.Common.StatusCodes.Success;
                     response.Message += "Organisation Details";
                 }
-                response.Data=organization;
+                response.Data = organization;
             }
             catch (Exception ex)
             {

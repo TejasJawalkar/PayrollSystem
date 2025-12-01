@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 using PayrollSystem.Data.Common;
+using PayrollSystem.Entity.InputOutput.System;
 using PayrollSystem.Entity.Models.Employee;
 
 namespace PayrollSystem.Controllers
@@ -14,27 +16,27 @@ namespace PayrollSystem.Controllers
         }
         [HttpPost]
         [Route("System/AddOrganization")]
-        public IActionResult AddOrganization()
+        public IActionResult AddOrganization([FromForm] OrganizationInput organizationInput)
         {
             try
             {
                 var organization = new Orgnisations
                 {
-                    OrgnizationName = "Global Innovations",
-                    OrgnisationAddress = "456 Elm Street",
-                    OrgnisationCountry = "USA",
-                    OrgnisationState = "California",
-                    OrgnisationPincode = "90210",
-                    OrgnisationStartDate = Convert.ToDateTime("2023-12-01"),
-                    OrgnisationDirectorName = "John Doe",
-                    DirectorMobileNo = "9876543210",
-                    DirectorEmail = "johndoe@example.com",
-                    OrgnisationCeo = "Alice Smith",
-                    CeoMobileNo = "9871234560",
-                    CeoEmail = "AliceSmith@example.com",
-                    OrgnisationGstNo = "12BBCC1234C1A5",
-                    OrgnisationStartTime = "09:00:00",
-                    OrgnisationEndTime = "17:00:00",
+                    OrgnizationName = organizationInput.OrgnizationName,
+                    OrgnisationAddress = organizationInput.OrgnisationAddress,
+                    OrgnisationCountry = organizationInput.OrgnisationCountry,
+                    OrgnisationState = organizationInput.OrgnisationState,
+                    OrgnisationPincode = organizationInput.OrgnisationPincode,
+                    OrgnisationStartDate = Convert.ToDateTime(organizationInput.OrgnisationStartDate),
+                    OrgnisationDirectorName = organizationInput.OrgnisationDirectorName,
+                    DirectorMobileNo = organizationInput.DirectorEmail,
+                    DirectorEmail = organizationInput.DirectorEmail,
+                    OrgnisationCeo = organizationInput.OrgnisationCeo,
+                    CeoMobileNo = organizationInput.CeoMobileNo,
+                    CeoEmail = organizationInput.CeoEmail,
+                    OrgnisationGstNo = organizationInput.OrgnisationGstNo,
+                    OrgnisationStartTime = organizationInput.OrgnisationStartTime.IsNullOrEmpty() ? "" : organizationInput.OrgnisationStartTime,
+                    OrgnisationEndTime = organizationInput.OrgnisationEndTime.IsNullOrEmpty() ? "" : organizationInput.OrgnisationEndTime,
                     IsActive = true,
                     SystemRegisteredDate = DateTime.Now,
                 };

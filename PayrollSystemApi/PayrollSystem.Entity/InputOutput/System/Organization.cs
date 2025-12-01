@@ -1,6 +1,6 @@
 ﻿namespace PayrollSystem.Entity.InputOutput.System
 {
-    public class InputOrganization
+    public class OrganizationInput
     {
         public string OrgnizationName { get; set; }
         public string OrgnisationAddress { get; set; }
@@ -15,16 +15,16 @@
         public string CeoMobileNo { get; set; }
         public string CeoEmail { get; set; }
         public string OrgnisationGstNo { get; set; }
-        public TimeSpan OrgnisationStartTime { get; set; }
-        public TimeSpan OrgnisationEndTime { get; set; }
+        public string OrgnisationStartTime { get; set; }
+        public string OrgnisationEndTime { get; set; }
         public bool IsActive { get; set; }
         public DateTime SystemRegisteredDate { get; set; }
     }
 
 
-    public class OutputOrganization
+    public class OrganizationOutput
     {
-        public Int64 OrgnisationID { get;set; }
+        public Int64 OrgnisationID { get; set; }
         public string OrgnizationName { get; set; }
         public string OrgnisationAddress { get; set; }
         public string OrgnisationCountry { get; set; }

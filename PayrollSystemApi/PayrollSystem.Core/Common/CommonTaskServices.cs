@@ -137,14 +137,14 @@ namespace PayrollSystem.Core.Common
         #endregion
 
         #region GetOrganisationDetails
-        public async Task<OutputOrganization> GetOrganisationDetails(long OrganizationId, ResponseModel response)
+        public async Task<OrganizationOutput> GetOrganisationDetails(long OrganizationId, ResponseModel response)
         {
-            OutputOrganization outputOrganization = new OutputOrganization();
+            OrganizationOutput outputOrganization = new OrganizationOutput();
             try
             {
                 outputOrganization = (from o in _DbsContext.TblOragnizations
                                       where o.OrgnisationID == OrganizationId
-                                      select new OutputOrganization
+                                      select new OrganizationOutput
                                       {
                                           OrgnisationID = o.OrgnisationID,
                                           OrgnizationName = o.OrgnizationName,
@@ -162,7 +162,7 @@ namespace PayrollSystem.Core.Common
                                           OrgnisationGstNo = o.OrgnisationGstNo,
                                           OrgnisationStartTime = o.OrgnisationStartTime,
                                           OrgnisationEndTime = o.OrgnisationEndTime,
-                                      }).FirstOrDefault() ?? new OutputOrganization();
+                                      }).FirstOrDefault() ?? new OrganizationOutput();
 
 
             }
