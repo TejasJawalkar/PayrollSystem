@@ -1,6 +1,7 @@
 ﻿using System.Text;
 using ExceptionHandling;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
@@ -26,6 +27,18 @@ else
         , true).AddEnvironmentVariables();
 }
 
+builder.Services.AddRateLimiter(option =>
+{
+    option.AddFixedWindowLimiter("ApiLimit", config =>
+    {
+        config.PermitLimit = Convert.ToInt16(builder.Configuration["AllowLimiter:PermitLimit"]);
+        config.Window = TimeSpan.FromMinutes(Convert.ToDouble(builder.Configuration["AllowLimiter:TimeWindowInMinutes"]));
+        config.QueueLimit = 0;
+        config.QueueProcessingOrder = System.Threading.RateLimiting.QueueProcessingOrder.OldestFirst;
+    });
+});
+
+
 //builder.Services.AddAuthorization(options =>
 //{
 //    options.AddPolicy("RequiredRolePolicy", policy =>
@@ -43,10 +56,7 @@ DependencyInjection.Injectctor(builder.Services);
 var sqlconnection = builder.Configuration.GetConnectionString("ConnectionLink");
 
 builder.Services.AddDbContext<DbsContext>(options => options.UseSqlServer(sqlconnection, b => b.MigrationsAssembly("PayrollSystem")));
-builder.Services.AddDbContext<DbsContext>(options => options.UseSqlServer(sqlconnection));
-
-
-builder.Services.AddSingleton<DapperDbContext>(new DapperDbContext(sqlconnection));
+builder.Services.AddSingleton<DapperDbContext>();
 
 builder.Services.AddMvc(options =>
 {
@@ -91,7 +101,6 @@ builder.Services.AddCors(options =>
     });
 });
 
-builder.Services.AddAuthentication();
 builder.Services.AddControllers(options =>
 {
     options.Filters.Add<ApiKeyAuthenticateFilter>();
@@ -113,7 +122,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseCors(AllowedSpecificOrigins);
-app.UseMiddleware(typeof(ExcetionHandlingMiddleware));
+app.UseMiddleware<ExcetionHandlingMiddleware>();
 app.UseStaticFiles();
 app.UseRouting();
 app.UseAuthentication();

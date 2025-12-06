@@ -1,15 +1,15 @@
-﻿using Microsoft.Data.SqlClient;
+﻿using System.Data;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
-using System.Data;
 
 namespace PayrollSystem.Data.Common
 {
-    public class DapperDbContext:DbContext
+    public class DapperDbContext : DbContext
     {
         private readonly string _ConnectionString;
-        public DapperDbContext(string connectionString)
+        public DapperDbContext(IConfiguration configuration)
         {
-            _ConnectionString = connectionString;
+            _ConnectionString = configuration.GetConnectionString("ConnectionLink");
         }
 
         public IDbConnection CreateConnection() => new SqlConnection(_ConnectionString);
