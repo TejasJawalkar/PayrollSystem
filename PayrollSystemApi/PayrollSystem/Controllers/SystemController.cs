@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
 using PayrollSystem.Data.Common;
 using PayrollSystem.Entity.InputOutput.System;
 using PayrollSystem.Entity.Models.Employee;
@@ -35,8 +34,8 @@ namespace PayrollSystem.Controllers
                     CeoMobileNo = organizationInput.CeoMobileNo,
                     CeoEmail = organizationInput.CeoEmail,
                     OrgnisationGstNo = organizationInput.OrgnisationGstNo,
-                    OrgnisationStartTime = organizationInput.OrgnisationStartTime.IsNullOrEmpty() ? "" : organizationInput.OrgnisationStartTime,
-                    OrgnisationEndTime = organizationInput.OrgnisationEndTime.IsNullOrEmpty() ? "" : organizationInput.OrgnisationEndTime,
+                    OrgnisationStartTime = organizationInput.OrgnisationStartTime ?? "",
+                    OrgnisationEndTime = organizationInput.OrgnisationEndTime ?? "",
                     IsActive = true,
                     SystemRegisteredDate = DateTime.Now,
                 };
