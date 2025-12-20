@@ -2,7 +2,7 @@ using System.Data.Common;
 using Microsoft.Data.SqlClient;
 using System.Text.RegularExpressions;
 
-namespace ScriptRunner.Core;
+namespace ScriptRunner.Core.Adapters;
 
 public class SqlServerAdapter : IProviderAdapter
 {

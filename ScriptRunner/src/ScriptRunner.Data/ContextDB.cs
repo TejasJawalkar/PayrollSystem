@@ -11,8 +11,10 @@ namespace ScriptRunner.Data
 
 
         #region DbSets
-        public DbSet<ConnectionProfile> TsyProfiles { get; set; }
-        public DbSet<ExecutedScripts> TsyScripts { get; set; }
+        public DbSet<ConnectionProfile> TSYProfiles { get; set; }
+        public DbSet<ExecutedScripts> TSYScripts { get; set; }
+        public DbSet<ExceptionLog> TSYExceptionLogs { get; set; }
+
         #endregion
 
         #region OnModelCreating
@@ -23,12 +25,21 @@ namespace ScriptRunner.Data
             {
                 entity.HasKey(e => e.ProfileId);
                 entity.HasIndex(e => e.ConnectionName).IsUnique();
+                entity.HasMany(e => e.ExecutedScripts)
+                      .WithOne(e => e.connectionProfiles)
+                      .HasForeignKey(e => e.ProfileId)
+                      .OnDelete(DeleteBehavior.Cascade);
             });
 
             modelBuilder.Entity<ExecutedScripts>(entity =>
              {
                  entity.HasKey(e => e.ScriptId);
              });
+
+            modelBuilder.Entity<ExceptionLog>(entity =>
+            {
+                entity.HasKey(e => e.ExceptionId);
+            });
         }
         #endregion
 

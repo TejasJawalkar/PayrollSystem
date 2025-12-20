@@ -15,106 +15,145 @@ partial class ProfileEditorForm
 
     private void InitializeComponent()
     {
-        this.lblName = new System.Windows.Forms.Label();
-        this.txtName = new System.Windows.Forms.TextBox();
-        this.lblProvider = new System.Windows.Forms.Label();
-        this.cmbProvider = new System.Windows.Forms.ComboBox();
-        this.lblConn = new System.Windows.Forms.Label();
-        this.txtConn = new System.Windows.Forms.TextBox();
-        this.btnTest = new System.Windows.Forms.Button();
-        this.btnSave = new System.Windows.Forms.Button();
-        this.lstProfiles = new System.Windows.Forms.ListBox();
-        this.btnDelete = new System.Windows.Forms.Button();
-        this.SuspendLayout();
+        lblName = new Label();
+        txtName = new TextBox();
+        lblProvider = new Label();
+        cmbProvider = new ComboBox();
+        lblConn = new Label();
+        txtConn = new TextBox();
+        btnTest = new Button();
+        btnSave = new Button();
+        lstProfiles = new ListBox();
+        btnDelete = new Button();
+        ConnectionSourceTxt = new TextBox();
+        label1 = new Label();
+        SuspendLayout();
         // 
         // lblName
         // 
-        this.lblName.Location = new System.Drawing.Point(12, 12);
-        this.lblName.Name = "lblName";
-        this.lblName.Size = new System.Drawing.Size(80, 23);
-        this.lblName.Text = "Name:";
+        lblName.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+        lblName.Location = new Point(12, 96);
+        lblName.Name = "lblName";
+        lblName.Size = new Size(130, 17);
+        lblName.TabIndex = 9;
+        lblName.Text = "Connection Name:";
         // 
         // txtName
         // 
-        this.txtName.Location = new System.Drawing.Point(98, 12);
-        this.txtName.Size = new System.Drawing.Size(360, 23);
+        txtName.Location = new Point(143, 93);
+        txtName.Name = "txtName";
+        txtName.Size = new Size(331, 23);
+        txtName.TabIndex = 8;
         // 
         // lblProvider
         // 
-        this.lblProvider.Location = new System.Drawing.Point(12, 44);
-        this.lblProvider.Name = "lblProvider";
-        this.lblProvider.Size = new System.Drawing.Size(80, 23);
-        this.lblProvider.Text = "Provider:";
+        lblProvider.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+        lblProvider.Location = new Point(11, 64);
+        lblProvider.Name = "lblProvider";
+        lblProvider.Size = new Size(130, 22);
+        lblProvider.TabIndex = 7;
+        lblProvider.Text = "Provider:";
         // 
         // cmbProvider
         // 
-        this.cmbProvider.Location = new System.Drawing.Point(98, 44);
-        this.cmbProvider.Size = new System.Drawing.Size(200, 23);
+        cmbProvider.Location = new Point(143, 64);
+        cmbProvider.Name = "cmbProvider";
+        cmbProvider.Size = new Size(331, 23);
+        cmbProvider.TabIndex = 6;
         // 
         // lblConn
         // 
-        this.lblConn.Location = new System.Drawing.Point(12, 76);
-        this.lblConn.Name = "lblConn";
-        this.lblConn.Size = new System.Drawing.Size(80, 23);
-        this.lblConn.Text = "Connection String:";
+        lblConn.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+        lblConn.Location = new Point(15, 258);
+        lblConn.Name = "lblConn";
+        lblConn.Size = new Size(127, 23);
+        lblConn.TabIndex = 5;
+        lblConn.Text = "Connection String:";
         // 
         // txtConn
         // 
-        this.txtConn.Location = new System.Drawing.Point(15, 102);
-        this.txtConn.Multiline = true;
-        this.txtConn.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-        this.txtConn.Size = new System.Drawing.Size(760, 120);
+        txtConn.Location = new Point(15, 284);
+        txtConn.Multiline = true;
+        txtConn.Name = "txtConn";
+        txtConn.ScrollBars = ScrollBars.Vertical;
+        txtConn.Size = new Size(760, 168);
+        txtConn.TabIndex = 4;
         // 
         // btnTest
         // 
-        this.btnTest.Location = new System.Drawing.Point(15, 232);
-        this.btnTest.Name = "btnTest";
-        this.btnTest.Size = new System.Drawing.Size(100, 30);
-        this.btnTest.Text = "Test Connection";
-        this.btnTest.UseVisualStyleBackColor = true;
-        this.btnTest.Click += new System.EventHandler(this.BtnTest_Click);
+        btnTest.Location = new Point(15, 129);
+        btnTest.Name = "btnTest";
+        btnTest.Size = new Size(127, 30);
+        btnTest.TabIndex = 3;
+        btnTest.Text = "Test Connection";
+        btnTest.UseVisualStyleBackColor = true;
+        btnTest.Click += BtnTest_Click;
         // 
         // btnSave
         // 
-        this.btnSave.Location = new System.Drawing.Point(121, 232);
-        this.btnSave.Name = "btnSave";
-        this.btnSave.Size = new System.Drawing.Size(100, 30);
-        this.btnSave.Text = "Save Profile";
-        this.btnSave.UseVisualStyleBackColor = true;
-        this.btnSave.Click += new System.EventHandler(this.BtnSave_Click);
+        btnSave.Location = new Point(320, 129);
+        btnSave.Name = "btnSave";
+        btnSave.Size = new Size(100, 30);
+        btnSave.TabIndex = 2;
+        btnSave.Text = "Save Profile";
+        btnSave.UseVisualStyleBackColor = true;
+        btnSave.Click += BtnSave_Click;
         // 
         // lstProfiles
         // 
-        this.lstProfiles.Location = new System.Drawing.Point(480, 12);
-        this.lstProfiles.Size = new System.Drawing.Size(295, 208);
-        this.lstProfiles.SelectedIndexChanged += new System.EventHandler(this.LstProfiles_SelectedIndexChanged);
+        lstProfiles.ItemHeight = 15;
+        lstProfiles.Location = new Point(480, 12);
+        lstProfiles.Name = "lstProfiles";
+        lstProfiles.Size = new Size(295, 259);
+        lstProfiles.TabIndex = 1;
+        lstProfiles.SelectedIndexChanged += LstProfiles_SelectedIndexChanged;
         // 
         // btnDelete
         // 
-        this.btnDelete.Location = new System.Drawing.Point(480, 232);
-        this.btnDelete.Name = "btnDelete";
-        this.btnDelete.Size = new System.Drawing.Size(100, 30);
-        this.btnDelete.Text = "Delete";
-        this.btnDelete.UseVisualStyleBackColor = true;
-        this.btnDelete.Click += new System.EventHandler(this.BtnDelete_Click);
+        btnDelete.Location = new Point(176, 129);
+        btnDelete.Name = "btnDelete";
+        btnDelete.Size = new Size(100, 30);
+        btnDelete.TabIndex = 0;
+        btnDelete.Text = "Delete";
+        btnDelete.UseVisualStyleBackColor = true;
+        btnDelete.Click += BtnDelete_Click;
+        // 
+        // ConnectionSourceTxt
+        // 
+        ConnectionSourceTxt.Location = new Point(143, 5);
+        ConnectionSourceTxt.Name = "ConnectionSourceTxt";
+        ConnectionSourceTxt.Size = new Size(331, 23);
+        ConnectionSourceTxt.TabIndex = 10;
+        // 
+        // label1
+        // 
+        label1.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+        label1.Location = new Point(8, 8);
+        label1.Name = "label1";
+        label1.Size = new Size(130, 17);
+        label1.TabIndex = 11;
+        label1.Text = "Connect Source:";
         // 
         // ProfileEditorForm
         // 
-        this.ClientSize = new System.Drawing.Size(794, 276);
-        this.Controls.Add(this.btnDelete);
-        this.Controls.Add(this.lstProfiles);
-        this.Controls.Add(this.btnSave);
-        this.Controls.Add(this.btnTest);
-        this.Controls.Add(this.txtConn);
-        this.Controls.Add(this.lblConn);
-        this.Controls.Add(this.cmbProvider);
-        this.Controls.Add(this.lblProvider);
-        this.Controls.Add(this.txtName);
-        this.Controls.Add(this.lblName);
-        this.Name = "ProfileEditorForm";
-        this.Text = "Profile Editor";
-        this.ResumeLayout(false);
-        this.PerformLayout();
+        ClientSize = new Size(789, 472);
+        Controls.Add(ConnectionSourceTxt);
+        Controls.Add(label1);
+        Controls.Add(btnDelete);
+        Controls.Add(lstProfiles);
+        Controls.Add(btnSave);
+        Controls.Add(btnTest);
+        Controls.Add(txtConn);
+        Controls.Add(lblConn);
+        Controls.Add(cmbProvider);
+        Controls.Add(lblProvider);
+        Controls.Add(txtName);
+        Controls.Add(lblName);
+        Name = "ProfileEditorForm";
+        Text = "Profile Editor";
+        FormClosed += ProfileEditorForm_FormClosed;
+        ResumeLayout(false);
+        PerformLayout();
     }
 
     private System.Windows.Forms.Label lblName;
@@ -127,4 +166,6 @@ partial class ProfileEditorForm
     private System.Windows.Forms.Button btnSave;
     private System.Windows.Forms.ListBox lstProfiles;
     private System.Windows.Forms.Button btnDelete;
+    private TextBox ConnectionSourceTxt;
+    private Label label1;
 }

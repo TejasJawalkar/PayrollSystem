@@ -1,38 +1,45 @@
 using ScriptRunner.Core;
-using ScriptRunner.Core.Models;
-using ScriptRunner.Core.Persistence;
+using ScriptRunner.Core.Adapters;
+using ScriptRunner.WinForms.DTO;
+using ScriptRunner.WinForms.IRepository.IProfileRepository;
+using ScriptRunner.WinForms.IRepository.ISystemRepository;
+using ScriptRunner.WinForms.Models;
 
 namespace ScriptRunner.WinForms;
 
 public partial class ProfileEditorForm : Form
 {
-    private readonly ProfileStore _store;
     private BindingSource _bs = new BindingSource();
+    private readonly IProfileService _profileService;
+    private readonly IExceptionLogService _exceptionLogService;
 
-    public ProfileEditorForm(ProfileStore store)
+    SystemExceptions exceptions = null;
+
+    public ProfileEditorForm(IProfileService profileService, IExceptionLogService exceptionLogService)
     {
-        _store = store;
         InitializeComponent();
         cmbProvider.Items.AddRange(new[] { "SqlServer", "Oracle" });
+        _profileService = profileService;
+        _exceptionLogService = exceptionLogService;
         LoadProfiles();
     }
 
-    private void LoadProfiles()
+    private async void LoadProfiles()
     {
-        var profiles = _store.LoadAll().ToList();
-        _bs.DataSource = profiles;
-        lstProfiles.DisplayMember = "Name";
-        lstProfiles.ValueMember = "Id";
+        var profiles = await _profileService.GetAllProfiles();
+        _bs.DataSource = profiles.connectionProfiles;
+        lstProfiles.DisplayMember = nameof(ConnectionProfileDTO.ConnectionName);
+        lstProfiles.ValueMember = nameof(ConnectionProfileDTO.ProfileId);
         lstProfiles.DataSource = _bs;
     }
 
     private void LstProfiles_SelectedIndexChanged(object sender, EventArgs e)
     {
-        if (lstProfiles.SelectedItem is ConnectionProfile p)
+        if (lstProfiles.SelectedItem is ConnectionProfileDTO p)
         {
             txtName.Text = p.ConnectionName;
             cmbProvider.SelectedItem = p.Provider;
-            txtConn.Text = ProfileStore.UnprotectConnectionString(p.EncryptedConnectionString);
+            txtConn.Text = p.EncryptedConnectionString;
         }
     }
 
@@ -49,11 +56,9 @@ public partial class ProfileEditorForm : Form
         btnTest.Enabled = false;
         try
         {
-            // Try opening a connection using adapter
             IProviderAdapter adapter = provider switch
             {
                 "SqlServer" => new SqlServerAdapter(),
-                "Oracle" => new OracleAdapter(),
                 _ => throw new InvalidOperationException("Unsupported provider")
             };
 
@@ -64,6 +69,11 @@ public partial class ProfileEditorForm : Form
         }
         catch (Exception ex)
         {
+            exceptions = new SystemExceptions
+            {
+                ErrorMessage = ex.Message
+            };
+            await _exceptionLogService.SaveExceptionLog(exceptions);
             MessageBox.Show("Connection failed: " + ex.Message);
         }
         finally
@@ -72,34 +82,79 @@ public partial class ProfileEditorForm : Form
         }
     }
 
-    private void BtnSave_Click(object sender, EventArgs e)
+    private async void BtnSave_Click(object sender, EventArgs e)
     {
-        var profiles = _store.LoadAll().ToList();
-        var existing = lstProfiles.SelectedItem as ConnectionProfile;
-        var name = txtName.Text.Trim();
-        var provider = cmbProvider.SelectedItem?.ToString() ?? "";
-        var cs = txtConn.Text;
-
-        if (string.IsNullOrWhiteSpace(name) || string.IsNullOrWhiteSpace(provider) || string.IsNullOrWhiteSpace(cs))
+        try
         {
-            MessageBox.Show("Name, provider and connection string are required.");
-            return;
+            var profiles = await _profileService.GetAllProfiles(); /// get all saved profile and load in textaread to select
+            var existing = lstProfiles.SelectedItem as ConnectionProfileDTO;
+            ConnectionProfileDTO profileDTO = new ConnectionProfileDTO();
+
+            profileDTO.ConnectionName = txtName.Text.Trim();
+            profileDTO.Provider = cmbProvider.SelectedItem?.ToString() ?? "";
+            profileDTO.EncryptedConnectionString = txtConn.Text;
+            profileDTO.ConnectionSource = ConnectionSourceTxt.Text.Trim() ?? "";
+            profileDTO.EncryptedConnectionString = profileDTO.EncryptedConnectionString;
+
+            if (string.IsNullOrEmpty(profileDTO.ConnectionName) || string.IsNullOrEmpty(profileDTO.Provider) || string.IsNullOrEmpty(profileDTO.EncryptedConnectionString) || string.IsNullOrEmpty(profileDTO.ConnectionSource))
+            {
+                MessageBox.Show("Name, provider and connection string are required.");
+                return;
+            }
+            await SaveProfileInDB(profileDTO);
+            LoadProfiles();
+            MessageBox.Show("Saved.");
         }
-
-        var encrypted = ProfileStore.ProtectConnectionString(cs);
-
-        LoadProfiles();
-        MessageBox.Show("Saved.");
+        catch (Exception ex)
+        {
+            exceptions = new SystemExceptions
+            {
+                ErrorMessage = ex.Message
+            };
+            await _exceptionLogService.SaveExceptionLog(exceptions);
+            MessageBox.Show("Error saving profile: " + ex.Message);
+        }
     }
 
-    private void BtnDelete_Click(object sender, EventArgs e)
+    private async Task<Int32> SaveProfileInDB(ConnectionProfileDTO profileDTO)
     {
-        if (lstProfiles.SelectedItem is ConnectionProfile p)
+        Int32 result = 0;
+        try
         {
-            var profiles = _store.LoadAll().ToList();
-            profiles.RemoveAll(x => x.ProfileId == p.ProfileId);
-            _store.SaveAll(profiles);
-            LoadProfiles();
+            result = await _profileService.SaveProfiles(profileDTO);
+        }
+        catch (Exception ex)
+        {
+            exceptions = new SystemExceptions
+            {
+                ErrorMessage = ex.Message
+            };
+            await _exceptionLogService.SaveExceptionLog(exceptions);
+        }
+        return result;
+    }
+
+    private async void BtnDelete_Click(object sender, EventArgs e)
+    {
+
+    }
+
+    private async void ProfileEditorForm_FormClosed(object sender, FormClosedEventArgs e)
+    {
+        try
+        {
+            if (this.Owner is MainForm mainForm)
+            {
+                mainForm.LoadProfiles();
+            }
+        }
+        catch (Exception ex)
+        {
+            exceptions = new SystemExceptions
+            {
+                ErrorMessage = ex.Message
+            };
+            await _exceptionLogService.SaveExceptionLog(exceptions);
         }
     }
 }
