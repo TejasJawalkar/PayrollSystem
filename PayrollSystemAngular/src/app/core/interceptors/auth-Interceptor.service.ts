@@ -7,6 +7,7 @@ import {
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
+import { CommonConstants } from '../constants/commonConstants';
 
 @Injectable()
 export class authInterceptor implements HttpInterceptor {
@@ -14,10 +15,14 @@ export class authInterceptor implements HttpInterceptor {
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
+    console.log('Interceptor WORKING');
+    const token = sessionStorage.getItem('UserToken');
     debugger;
     let tokenizedReq = req.clone({
       setHeaders: {
-        // AuthoRization:`Bearer ${}`,
+        'Content-Type': CommonConstants.CONTENT_TYPE,
+        apikeyvalue: environment.apikey,
+        Accept: '*/*',
       },
     });
     return next.handle(tokenizedReq);

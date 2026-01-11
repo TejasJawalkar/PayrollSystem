@@ -7,7 +7,6 @@ namespace ScriptRunner.WinForms.IRepository.ISystemRepository
 {
     public class ExceptionLogServices : IExceptionLogService
     {
-        private readonly IExceptionLogService _exceptionLogService;
         private readonly ContextDB _contextDB;
 
         public ExceptionLogServices(ContextDB contextDB)

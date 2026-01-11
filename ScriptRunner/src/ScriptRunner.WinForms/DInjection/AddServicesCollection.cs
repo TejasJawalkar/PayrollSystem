@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using ScriptRunner.Core;
 using ScriptRunner.Core.Adapters;
+using ScriptRunner.Core.Contracts;
 using ScriptRunner.WinForms.IRepository.IProfileRepository;
 using ScriptRunner.WinForms.IRepository.IScriptRepository;
 using ScriptRunner.WinForms.IRepository.ISystemRepository;

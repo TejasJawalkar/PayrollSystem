@@ -93,9 +93,9 @@ partial class ProfileEditorForm
         // 
         btnSave.Location = new Point(320, 129);
         btnSave.Name = "btnSave";
-        btnSave.Size = new Size(100, 30);
+        btnSave.Size = new Size(116, 30);
         btnSave.TabIndex = 2;
-        btnSave.Text = "Save Profile";
+        btnSave.Text = "Save Connection";
         btnSave.UseVisualStyleBackColor = true;
         btnSave.Click += BtnSave_Click;
         // 

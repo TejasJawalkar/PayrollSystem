@@ -1,6 +1,6 @@
 using System.Data.Common;
 
-namespace ScriptRunner.Core;
+namespace ScriptRunner.Core.Contracts;
 
 public interface IProviderAdapter
 {

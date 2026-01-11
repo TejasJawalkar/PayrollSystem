@@ -1,5 +1,7 @@
 using System.Data.Common;
 using System.Text;
+using System.Text.RegularExpressions;
+using ScriptRunner.Core.Contracts;
 using ScriptRunner.Core.DTOS;
 namespace ScriptRunner.Core;
 
@@ -21,16 +23,25 @@ public class ScriptRunner
         if (!_adapters.TryGetValue(scriptRunInput.profile.Provider, out var adapter))
             throw new InvalidOperationException($"No adapter for provider {scriptRunInput.profile.Provider}");
 
-        await using var conn = adapter.CreateConnection(scriptRunInput.profile.EncryptedConnectionString);
+        string connnectionString = scriptRunInput.profile.EncryptedConnectionString.Trim();
+
+        if (string.IsNullOrWhiteSpace(connnectionString))
+            throw new InvalidOperationException("Connection string is empty");
+
+        await using var conn = adapter.CreateConnection(connnectionString);
+
         await conn.OpenAsync(scriptRunInput.ct);
 
         var batches = adapter.SplitIntoBatches(scriptRunInput.scriptText).ToList();
-        var output = new StringBuilder();
 
+        var output = new StringBuilder();
         DbTransaction? tx = null;
+
         try
         {
-            if (adapter.SupportsTransactions)
+            var containddl = batches.Any(checkscript);
+
+            if (adapter.SupportsTransactions && !containddl)
             {
                 tx = await conn.BeginTransactionAsync(scriptRunInput.ct);
             }
@@ -38,40 +49,63 @@ public class ScriptRunner
             foreach (var batch in batches)
             {
                 scriptRunInput.ct.ThrowIfCancellationRequested();
+
                 await using var cmd = conn.CreateCommand();
+
                 cmd.CommandText = batch;
-                cmd.Transaction = tx;
-                var isSelect = batch.TrimStart().StartsWith("SELECT", StringComparison.OrdinalIgnoreCase);
-                if (isSelect)
-                {
-                    await using var reader = await cmd.ExecuteReaderAsync(scriptRunInput.ct);
-                    int rows = 0;
-                    while (await reader.ReadAsync(scriptRunInput.ct)) rows++;
-                    output.AppendLine($"Query returned {rows} rows");
-                }
-                else
-                {
-                    var affected = await cmd.ExecuteNonQueryAsync(scriptRunInput.ct);
-                    output.AppendLine($"Affected: {affected}");
-                }
+
+                if (tx != null) cmd.Transaction = tx;
+
+                var affected = await cmd.ExecuteNonQueryAsync(scriptRunInput.ct);
+
+                output.AppendLine(affected >= 0 ?
+                    $"Batch Executed, Query returned rows: {affected}"
+                    : "Batch Executed Successfully");
             }
 
             if (tx != null)
                 await tx.CommitAsync(scriptRunInput.ct);
 
-            return new ScriptExecutionResult { Success = true, Output = output.ToString() };
+            return new ScriptExecutionResult
+            {
+                Success = true,
+                Output = output.ToString()
+            };
         }
         catch (Exception ex)
         {
             if (tx != null)
             {
-                try { await tx.RollbackAsync(CancellationToken.None); } catch { }
+                try { await tx.RollbackAsync(CancellationToken.None); }
+                catch { }
             }
-            return new ScriptExecutionResult { Success = false, Error = ex, Output = output.ToString() };
+            return new ScriptExecutionResult
+            {
+                Success = false,
+                Error = ex,
+                Output = output.ToString()
+            };
         }
         finally
         {
             await conn.CloseAsync();
         }
+
     }
+
+    public bool checkscript(string b)
+    {
+        var sql = removeComments(b).ToUpperInvariant();
+        return Regex.IsMatch(sql, "DROP | DELETE | TRUNCATE | ALTER | CREATE", RegexOptions.IgnoreCase);
+    }
+
+    public static string removeComments(string sql)
+    {
+        sql = Regex.Replace(sql, @"/\*.*?\*/", "", RegexOptions.Singleline);
+        sql = Regex.Replace(sql, @"--.*?$", "", RegexOptions.Multiline);
+
+        return sql;
+    }
+
+
 }

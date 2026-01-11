@@ -19,17 +19,16 @@ export class AuthService {
     }
   }
 
-  headers = new HttpHeaders({
-    'Content-Type': CommonConstants.CONTENT_TYPE,
-    apikeyvalue: environment.apikey,
-    Accept: '*/*',
-  });
+  // headers = new HttpHeaders({
+  //   'Content-Type': CommonConstants.CONTENT_TYPE,
+  //   apikeyvalue: environment.apikey,
+  //   Accept: '*/*',
+  // });
 
   LoginUser = (data: any): Observable<any> => {
     const body = new HttpParams({ fromObject: data });
-    const options = { headers: this.headers };
 
-    return this.http.post(`${this.BaseUrl}Employee/Login`, body, options);
+    return this.http.post(`${this.BaseUrl}Employee/Login`, body);
   };
 
   setToken(token: any): void {

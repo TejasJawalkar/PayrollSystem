@@ -8,6 +8,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="bin\**" />
+    <Content Remove="bin\**" />
+    <EmbeddedResource Remove="bin\**" />
+    <None Remove="bin\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Dapper" Version="2.1.66" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.22" />
     <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.3.0" />
@@ -30,15 +37,16 @@
 		<ProjectReference Include="..\PayrollSystem.Entity\PayrollSystem.Entity.csproj" />
 	</ItemGroup>
 
-	<ItemGroup>
-	  <Folder Include="bin\Debug\net6.0\" />
-	</ItemGroup>
+	<Target Name="BlockPublishToSource" BeforeTargets="Publish">
+		<PropertyGroup>
+			<_PublishInsideProject>
+				$([System.String]::Copy('$(PublishDir)').StartsWith('$(ProjectDir)'))
+			</_PublishInsideProject>
+		</PropertyGroup>
 
-	<!-- Pre-build target to kill w3wp.exe if it locks DLL -->
-	<Target Name="KillIISWorker" BeforeTargets="Build">
-		<Exec Command="taskkill /F /IM w3wp.exe" ContinueOnError="true" />
+		<Error Condition="'$(_PublishInsideProject)' == 'True'"
+			   Text="❌ PublishDir must NOT point inside the source project folder." />
 	</Target>
-
 
 
 </Project>

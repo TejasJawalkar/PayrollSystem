@@ -67,3 +67,4 @@ packages/
 **/node_modules
 **/.angular
 /ScriptRunner/src/ScriptRunner.WinForms/Migrations
+/IIS/PayrollSystem
