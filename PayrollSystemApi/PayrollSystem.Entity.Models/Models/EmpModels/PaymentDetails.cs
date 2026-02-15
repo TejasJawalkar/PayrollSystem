@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PayrollSystem.Entity.Models.Employee
 {
@@ -6,6 +7,7 @@ namespace PayrollSystem.Entity.Models.Employee
     {
         #region Properties
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Int64 PaymentID { get; set; }
         [Required]
         public double CTC { get; set; }

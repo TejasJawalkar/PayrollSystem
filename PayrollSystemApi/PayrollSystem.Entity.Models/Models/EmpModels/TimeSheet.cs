@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics.CodeAnalysis;
 
 namespace PayrollSystem.Entity.Models.Employee
@@ -7,6 +8,7 @@ namespace PayrollSystem.Entity.Models.Employee
     {
         #region Properties
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Int64 TimeSheetId { get; set; }
         [Required]
         public Int64 EmployeeId { get; set; }

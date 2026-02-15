@@ -1,9 +1,9 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PayrollSystem.Business.HR;
 using PayrollSystem.Entity.InputOutput.Common;
 using PayrollSystem.Entity.InputOutput.HR;
-using System.Security.Claims;
 
 
 namespace PayrollSystem.Controllers
@@ -38,7 +38,7 @@ namespace PayrollSystem.Controllers
                 Int64 EmployeeId = Convert.ToInt64(currentUser.Claims.First(c => c.Type == "EmployeeId").Value);
                 if (EmployeeId != 0)
                 {
-                    if (newEmployeeInput.OrgnisationID != 0 || newEmployeeInput.DepartmentId != 0 || !string.IsNullOrEmpty(newEmployeeInput.OrganisationEmail) || !string.IsNullOrEmpty(newEmployeeInput.EmployeeName) | !string.IsNullOrEmpty(newEmployeeInput.PersonalEmail) || !string.IsNullOrEmpty(newEmployeeInput.Mobile) || newEmployeeInput.RoleId != 0)
+                    if (newEmployeeInput.OrgnisationID != 0 || newEmployeeInput.DepartmentId != 0 || !string.IsNullOrEmpty(newEmployeeInput.OrganisationEmail) || !string.IsNullOrEmpty(newEmployeeInput.Employee_FirstName) | !string.IsNullOrEmpty(newEmployeeInput.PersonalEmail) || !string.IsNullOrEmpty(newEmployeeInput.Mobile) || newEmployeeInput.RoleId != 0)
                     {
                         await _hrServices.RegisterNewEmployee(newEmployeeInput, response);
                     }

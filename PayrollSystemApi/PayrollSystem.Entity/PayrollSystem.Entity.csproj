@@ -5,7 +5,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <OutputType>Library</OutputType>
-    <BaseOutputPath>D:\Tutorials\Personal\myprojects\PayrollSystemApi\PayrollSystem\bin</BaseOutputPath>
+    <BaseOutputPath>D:\Tutorials\PayrollSystemMain\IIS\PayrollSystem</BaseOutputPath>
   </PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
@@ -17,9 +17,13 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <Compile Remove="bin\**" />
 	  <Compile Remove="Models\**" />
+	  <Content Remove="bin\**" />
 	  <Content Remove="Models\**" />
+	  <EmbeddedResource Remove="bin\**" />
 	  <EmbeddedResource Remove="Models\**" />
+	  <None Remove="bin\**" />
 	  <None Remove="Models\**" />
 	</ItemGroup>
 

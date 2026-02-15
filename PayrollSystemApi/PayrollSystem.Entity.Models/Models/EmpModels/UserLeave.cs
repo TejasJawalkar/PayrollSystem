@@ -1,5 +1,6 @@
 ﻿#region Imports
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics.CodeAnalysis;
 #endregion
 
@@ -9,7 +10,7 @@ namespace PayrollSystem.Entity.Models.Employee
     {
         #region Properties
         [Key]
-        [NotNull]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Int64 LeaveId { get; set; }
         [Required]
         public Int64 EmployeeId { get; set; }

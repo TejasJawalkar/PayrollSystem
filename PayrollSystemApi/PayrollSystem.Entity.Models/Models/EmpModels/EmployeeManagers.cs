@@ -1,14 +1,18 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PayrollSystem.Entity.Models.Employee
 {
     public class EmployeeManagers
     {
         [Key]
-        public Int64 EmployeeId { get; set; }
-        public Employee Employee { get; set; }
-        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Int64 ManagerId { get; set; }
-        public ReportingManagers ReportingManagers { get; set; }
+        [Required]
+        public Int64 EmployeeId { get; set; }
+        [ForeignKey("EmployeeId")]
+        public Employee Employee { get; set; }
+        public ICollection<ReportingManagers> Reportings { get; set; }
+
     }
 }

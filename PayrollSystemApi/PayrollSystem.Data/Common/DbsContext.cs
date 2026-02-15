@@ -39,7 +39,7 @@ namespace PayrollSystem.Data.Common
             modelBuilder.Entity<Employee>()
                 .HasOne(ela => ela.EmployeeLeavesAssigned)
                 .WithOne(e => e.Employee)
-                .HasForeignKey<EmployeeLeavesAssigned>(ed => ed.EmployeeLeavesAssignedId)
+                .HasForeignKey<Employee>(e => e.EmployeeLeavesAssignedId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Employee>()
@@ -60,11 +60,11 @@ namespace PayrollSystem.Data.Common
                .HasForeignKey<Employee>(fk => fk.PaymentID)
                .OnDelete(DeleteBehavior.Restrict);
 
-            modelBuilder.Entity<Employee>()
-                .HasOne(e => e.ReportingManagers)
-                .WithOne(m => m.Employee)
-                .HasForeignKey<ReportingManagers>(fk => fk.EmployeeId)
-                .OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<EmployeeManagers>()
+                .HasOne(e => e.Employee)
+                .WithOne(e => e.EmployeeManagers)
+                .HasForeignKey<Employee>(e => e.EmployeeId)
+                .OnDelete(DeleteBehavior.Cascade);
             #endregion
 
             #region One To Many Relationship
@@ -103,22 +103,42 @@ namespace PayrollSystem.Data.Common
                 .WithMany(ul => ul.RoutingChildModels)
                 .HasForeignKey(fk => fk.MainRouteId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+
+
+            modelBuilder.Entity<EmployeeManagers>()
+    .HasOne(m => m.Employee)
+    .WithOne(e => e.EmployeeManagers)
+    .HasForeignKey<EmployeeManagers>(m => m.EmployeeId)
+    .OnDelete(DeleteBehavior.Restrict);
+
+            // Unique constraint: one employee can become manager only once
+            modelBuilder.Entity<EmployeeManagers>()
+                .HasIndex(m => m.EmployeeId)
+                .IsUnique();
+
+            // ReportingManagers → Employee (Many-to-One)
+            modelBuilder.Entity<ReportingManagers>()
+                .HasOne(r => r.Employee)
+                .WithMany(e => e.ReportingManagers)
+                .HasForeignKey(r => r.EmployeeId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // ReportingManagers → EmployeeManagers (Many-to-One)
+            modelBuilder.Entity<ReportingManagers>()
+                .HasOne(r => r.Manager)
+                .WithMany(m => m.Reportings)
+                .HasForeignKey(r => r.ManagerId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // Optional: prevent duplicate employee-manager pair
+            modelBuilder.Entity<ReportingManagers>()
+                .HasIndex(r => new { r.EmployeeId, r.ManagerId })
+                .IsUnique();
             #endregion
 
             #region Many To Many 
-            modelBuilder.Entity<EmployeeManagers>().HasKey(ek => new { ek.EmployeeId, ek.ManagerId });
 
-            modelBuilder.Entity<EmployeeManagers>()
-                .HasOne(e => e.Employee)
-                .WithMany(e => e.EmployeeManagers)
-                .HasForeignKey(fk => fk.EmployeeId)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            modelBuilder.Entity<EmployeeManagers>()
-                .HasOne(e => e.ReportingManagers)
-                .WithMany(e => e.EmployeeManagers)
-                .HasForeignKey(fk => fk.ManagerId)
-                .OnDelete(DeleteBehavior.Restrict);
             #endregion
         }
         #endregion

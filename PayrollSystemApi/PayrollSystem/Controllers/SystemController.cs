@@ -13,6 +13,16 @@ namespace PayrollSystem.Controllers
         {
             _bsContext = dbsContext;
         }
+
+        [AllowAnonymous]
+        [HttpGet]
+        [Route("/PayrollSystem")]
+        public IActionResult Index()
+        {
+            return Ok(new { message = "Welcome to Payroll System API" });
+        }
+
+        [AllowAnonymous]
         [HttpPost]
         [Route("System/AddOrganization")]
         public IActionResult AddOrganization([FromForm] OrganizationInput organizationInput)

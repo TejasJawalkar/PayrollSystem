@@ -1,9 +1,7 @@
 ﻿using Dapper;
-using PayrollSystem.Core.Common;
 using PayrollSystem.Core.Logs;
 using PayrollSystem.Data.Common;
 using PayrollSystem.Entity.InputOutput.Common;
-using PayrollSystem.Entity.InputOutput.Employee;
 using PayrollSystem.Entity.InputOutput.HR;
 
 namespace PayrollSystem.Core.HR
@@ -40,7 +38,9 @@ namespace PayrollSystem.Core.HR
                 parameters.Add("DepartmentId", newEmployee.DepartmentId, System.Data.DbType.Int64, System.Data.ParameterDirection.Input);
                 parameters.Add("EmployeeId", newEmployee.EmployeeId, System.Data.DbType.Int64, System.Data.ParameterDirection.Input);
                 parameters.Add("RoleId", newEmployee.RoleId, System.Data.DbType.Int64, System.Data.ParameterDirection.Input);
-                parameters.Add("EmployeeName", newEmployee.EmployeeName, System.Data.DbType.String, System.Data.ParameterDirection.Input);
+                parameters.Add("E_Fir_Name", newEmployee.Employee_FirstName, System.Data.DbType.String, System.Data.ParameterDirection.Input);
+                parameters.Add("E_Mid_Name", newEmployee.Employee_MiddleName, System.Data.DbType.String, System.Data.ParameterDirection.Input);
+                parameters.Add("E_Last_Name", newEmployee.Employee_LastName, System.Data.DbType.String, System.Data.ParameterDirection.Input);
                 parameters.Add("OrganisationEmail", newEmployee.OrganisationEmail, System.Data.DbType.String, System.Data.ParameterDirection.Input);
                 parameters.Add("PersonalEmail", newEmployee.PersonalEmail, System.Data.DbType.String, System.Data.ParameterDirection.Input);
                 parameters.Add("Mobile", newEmployee.Mobile, System.Data.DbType.String, System.Data.ParameterDirection.Input);
@@ -48,11 +48,17 @@ namespace PayrollSystem.Core.HR
                 parameters.Add("CTC", newEmployee.CTC, System.Data.DbType.Double, System.Data.ParameterDirection.Input);
                 parameters.Add("GrossPay", newEmployee.GrossPay, System.Data.DbType.Double, System.Data.ParameterDirection.Input);
                 parameters.Add("NetPay", newEmployee.NetPay, System.Data.DbType.Double, System.Data.ParameterDirection.Input);
+                parameters.Add("UAN_No", newEmployee.NetPay, System.Data.DbType.String, System.Data.ParameterDirection.Input);
+                parameters.Add("AadharCard_No", newEmployee.NetPay, System.Data.DbType.Int64, System.Data.ParameterDirection.Input);
+                parameters.Add("Pancard_No", newEmployee.NetPay, System.Data.DbType.String, System.Data.ParameterDirection.Input);
+
+
+
                 parameters.Add("result", System.Data.DbType.Int32, direction: System.Data.ParameterDirection.Output);
 
                 using (var con = _dapperDbContext.CreateConnection())
                 {
-                    Result = await con.QueryFirstOrDefaultAsync<Int32>(procedure, parameters, commandType: System.Data.CommandType.StoredProcedure).ContinueWith(e=> parameters.Get<Int32>("result"));
+                    Result = await con.QueryFirstOrDefaultAsync<Int32>(procedure, parameters, commandType: System.Data.CommandType.StoredProcedure).ContinueWith(e => parameters.Get<Int32>("result"));
                 }
             }
             catch (Exception ex)

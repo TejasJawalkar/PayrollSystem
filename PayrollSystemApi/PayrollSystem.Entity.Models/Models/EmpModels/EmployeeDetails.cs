@@ -1,4 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Diagnostics.CodeAnalysis;
 
 namespace PayrollSystem.Entity.Models.Employee
 {
@@ -6,10 +8,15 @@ namespace PayrollSystem.Entity.Models.Employee
     {
         #region Properties
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Int64 EmployeeDetails_Id { get; set; }
         public Int64 EmployeeId { get; set; }
         [Required]
-        public string EmployeeName { get; set; }
+        public string E_Fir_Name { get; set; }
+        [AllowNull]
+        public string E_Mid_Name { get; set; } = "";
+        [Required]
+        public string E_Last_Name { get; set; }
         [Required]
         [EmailAddress]
         [MaxLength(50)]
@@ -23,6 +30,14 @@ namespace PayrollSystem.Entity.Models.Employee
         [Required]
         public bool IsActive { get; set; } = true;
         public bool IsPasswordChangeActive { get; set; } = true;
+
+        [AllowNull]
+        public string Pancard_No { get; set; }
+        [AllowNull]
+        public Int64 AadharCard_No { get; set; }
+
+        [AllowNull]
+        public string UAN_No { get; set; }
         #endregion
 
         #region Relation References

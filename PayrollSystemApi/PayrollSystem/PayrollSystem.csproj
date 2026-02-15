@@ -5,6 +5,16 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <OutputType>Exe</OutputType>
+	  <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+	  <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
+	  <AppendProjectNameToOutputPath>false</AppendProjectNameToOutputPath>
+
+	  <OutputPath>D:\Tutorials\PayrollSystemMain\IIS\PayrollSystem\</OutputPath>
+	  <!-- Common output root -->
+	  <BaseOutputPath>D:\Tutorials\PayrollSystemMain\IIS\PayrollSystem\</BaseOutputPath>
+
+	  <!-- Force Publish to use SAME folder -->
+	  <PublishDir>D:\Tutorials\PayrollSystemMain\IIS\PayrollSystem\</PublishDir>
   </PropertyGroup>
 
   <ItemGroup>
@@ -37,16 +47,10 @@
 		<ProjectReference Include="..\PayrollSystem.Entity\PayrollSystem.Entity.csproj" />
 	</ItemGroup>
 
-	<Target Name="BlockPublishToSource" BeforeTargets="Publish">
-		<PropertyGroup>
-			<_PublishInsideProject>
-				$([System.String]::Copy('$(PublishDir)').StartsWith('$(ProjectDir)'))
-			</_PublishInsideProject>
-		</PropertyGroup>
-
-		<Error Condition="'$(_PublishInsideProject)' == 'True'"
-			   Text="❌ PublishDir must NOT point inside the source project folder." />
-	</Target>
+	<ItemGroup>
+	  <Folder Include="Properties\" />
+	  <Folder Include="Properties\PublishProfiles\" />
+	</ItemGroup>
 
 
 </Project>

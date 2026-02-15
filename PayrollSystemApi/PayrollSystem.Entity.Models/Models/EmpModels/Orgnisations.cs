@@ -1,10 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PayrollSystem.Entity.Models.Employee
 {
     public class Orgnisations
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Int64 OrgnisationID { get; set; }
         [Required]
         public string OrgnizationName { get; set; }

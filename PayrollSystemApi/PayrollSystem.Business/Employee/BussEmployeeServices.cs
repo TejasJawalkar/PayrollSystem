@@ -40,24 +40,32 @@ namespace PayrollSystem.Business.Employee
             {
                 tokenOutput = await _employeeServices.EmployeeLogin(employeeLoginInput, response);
                 AuthenticationToken authenticationToken = new AuthenticationToken();
-                if (response.ObjectStatusCode != Entity.InputOutput.Common.StatusCodes.UnknowError)
+                if (tokenOutput.EmployeeId > 0)
                 {
-                    if (tokenOutput.EmployeeId != 0)
+                    if (response.ObjectStatusCode != Entity.InputOutput.Common.StatusCodes.UnknowError)
                     {
-                        authenticationToken.Token = generateAuthenticationToken(tokenOutput);
-                        authenticationToken.OrgnisationId = tokenOutput.OrgnisationId;
-                        authenticationToken.DepartmentId = tokenOutput.DepartmentId;
-                        authenticationToken.EmployeeId = tokenOutput.EmployeeId;
-                        authenticationToken.Role = tokenOutput.RoleId;
+                        if (tokenOutput.EmployeeId != 0)
+                        {
+                            authenticationToken.Token = generateAuthenticationToken(tokenOutput);
+                            authenticationToken.OrgnisationId = tokenOutput.OrgnisationId;
+                            authenticationToken.DepartmentId = tokenOutput.DepartmentId;
+                            authenticationToken.EmployeeId = tokenOutput.EmployeeId;
+                            authenticationToken.Role = tokenOutput.RoleId;
 
-                        response.Message += "Login Success";
-                        response.ObjectStatusCode = Entity.InputOutput.Common.StatusCodes.Success;
+                            response.Message += "Login Success";
+                            response.ObjectStatusCode = Entity.InputOutput.Common.StatusCodes.Success;
+                        }
+                        else
+                        {
+                            response.Message += "Login Failed";
+                            response.ObjectStatusCode = Entity.InputOutput.Common.StatusCodes.Error;
+                        }
                     }
-                    else
-                    {
-                        response.Message += "Login Failed";
-                        response.ObjectStatusCode = Entity.InputOutput.Common.StatusCodes.Error;
-                    }
+                }
+                else
+                {
+                    response.Message += "No User Found";
+                    response.ObjectStatusCode = Entity.InputOutput.Common.StatusCodes.UnAuthorized;
                 }
                 response.Data = tokenOutput.EmployeeId == 0 ? null : authenticationToken;
             }

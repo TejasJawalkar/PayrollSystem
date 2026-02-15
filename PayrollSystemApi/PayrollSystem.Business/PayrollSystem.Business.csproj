@@ -5,7 +5,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <OutputType>Library</OutputType>
-    <BaseOutputPath>D:\Tutorials\Personal\myprojects\PayrollSystemApi\PayrollSystem\bin</BaseOutputPath>
+    <BaseOutputPath>D:\Tutorials\PayrollSystemMain\IIS\PayrollSystem</BaseOutputPath>
   </PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
@@ -35,10 +35,4 @@
   <ItemGroup>
     <ProjectReference Include="..\PayrollSystem.Core\PayrollSystem.Core.csproj" />
   </ItemGroup>
-
-	<ItemGroup>
-		<Reference Include="PayrollSystem.WebAPI.Entity">
-			<HintPath>..\PayrollSystem\bin\Release\net6.0\PayrollSystem.Entity.dll</HintPath>
-		</Reference>
-	</ItemGroup>
 </Project>

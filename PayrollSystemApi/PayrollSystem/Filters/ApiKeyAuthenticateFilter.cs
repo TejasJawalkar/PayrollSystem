@@ -62,6 +62,8 @@ namespace PayrollSystem.Filters
             allowedApis.Add("AddOrganization");
             allowedApis.Add("AddRoles");
             allowedApis.Add("AddDepartments");
+            allowedApis.Add("GetDepartments");
+            allowedApis.Add("Index");
             return allowedApis;
         }
     }

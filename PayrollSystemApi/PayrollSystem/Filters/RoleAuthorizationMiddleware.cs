@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc.Filters;
-using System.Data;
-using System.Security.Claims;
+﻿using System.Data;
 
 namespace PayrollSystem.Filters
 {
@@ -19,7 +17,7 @@ namespace PayrollSystem.Filters
                 if (!optionalRoutes().Contains(Convert.ToString(context.Request.RouteValues["Action"])))
                 {
                     var user = context.User;
-                        var roles = user.FindAll("Role").Select(r => r.Value).ToList();
+                    var roles = user.FindAll("Role").Select(r => r.Value).ToList();
                     if (user.Identity.IsAuthenticated)
                     {
                         Console.WriteLine($"User roles: {string.Join(", ", roles)}");
@@ -43,6 +41,7 @@ namespace PayrollSystem.Filters
             List<string> allowedApis = new List<string>();
             allowedApis.Add("EmployeeLogin");
             allowedApis.Add("NewRegister");
+            allowedApis.Add("Index");
             return allowedApis;
         }
     }

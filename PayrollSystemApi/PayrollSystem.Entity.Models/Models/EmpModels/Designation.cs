@@ -1,5 +1,6 @@
 ﻿
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PayrollSystem.Entity.Models.Employee
 {
@@ -7,6 +8,7 @@ namespace PayrollSystem.Entity.Models.Employee
     {
         #region Properties
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Int64 RoleId { get; set; }
         [Required]
         [MaxLength(100)]
