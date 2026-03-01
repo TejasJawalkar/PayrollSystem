@@ -1,10 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PayrollSystem.Entity.Models.Models.SystemConfigurationModel
 {
     public class RoutingNavigationChildModel
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Int64 ChildRouteID { get; set; }
         public Int64 MainRouteId { get; set; }
         public string RouteName { get; set; }

@@ -6,10 +6,11 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
 import { MatGridListModule } from '@angular/material/grid-list';
-import { MatTooltip } from '@angular/material/tooltip';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { MatListModule } from '@angular/material/list';
 
 @NgModule({
   declarations: [],
@@ -22,10 +23,11 @@ import { MatExpansionModule } from '@angular/material/expansion';
     MatIconModule,
     MatCardModule,
     MatGridListModule,
-    MatTooltip,
+    MatTooltipModule,
     MatSidenavModule,
     NgxSpinnerModule,
     MatExpansionModule,
+    MatListModule,
   ],
   exports: [
     CommonModule,
@@ -36,10 +38,11 @@ import { MatExpansionModule } from '@angular/material/expansion';
     MatIconModule,
     MatCardModule,
     MatGridListModule,
-    MatTooltip,
+    MatTooltipModule,
     MatSidenavModule,
     NgxSpinnerModule,
     MatExpansionModule,
+    MatListModule,
   ],
 })
 export class MaterialModule {}

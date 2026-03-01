@@ -1,13 +1,57 @@
-.sidebarwrapper{
-  justify-content: center;
-  align-items: center;
-}
-.mat-accordion {
-  width: 18rem;
-  /* padding: 1rem; */
+/* MENU LINKS */
+mat-nav-list a {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+
+  gap: 12px;
+  padding: 10px 20px !important;
+
+  width: 100%;
+  box-sizing: border-box;
+
+  white-space: nowrap;
+  color: white;
+  text-decoration: none;
+
+  border-radius: 8px;
+
+  /* Remove Angular Material default min-height spacing */
+  min-height: 0 !important;
+  height: auto !important;
 }
 
-.mat-expansion-panel {
-  width: 19rem;
-  margin-top: 0.2em;
+/* LOGO BLOCK */
+.logo {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 12px;
+
+  padding: 0 20px 25px 20px;
+  width: 100%;
+  box-sizing: border-box;
+
+  color: white;
+}
+
+/* Logo Icon */
+.logo-icon {
+  font-size: 28px;
+  line-height: 1;
+}
+
+/* Logo Text */
+.logo-text {
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+}
+
+mat-nav-list a,
+mat-nav-list a span,
+mat-nav-list a .mat-icon {
+  color: white !important;
+  fill: white !important;
 }

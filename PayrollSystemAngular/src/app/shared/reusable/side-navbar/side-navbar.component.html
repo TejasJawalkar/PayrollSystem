@@ -1,12 +1,12 @@
-<div class="text-start">
-  <div class="sidebarwrapper">
-    <mat-accordion>
-      <mat-expansion-panel (opened)="panelOpenState.set(true)" (closed)="panelOpenState.set(false)">
-        <mat-expansion-panel-header>
-          <mat-panel-title> </mat-panel-title>
-        </mat-expansion-panel-header>
-      </mat-expansion-panel>
-    </mat-accordion>
-  </div>
-  
+<div class="logo">
+  <span>{{orgnisationData.OrgnizationName}}</span>
+  <!-- <mat-icon></mat-icon> -->
 </div>
+
+<mat-nav-list>
+  <a mat-list-item routerLink="/dashboard" routerLinkActive="active-link">
+    <span>Dashboard</span>
+  </a>
+
+  <!-- More menu items... -->
+</mat-nav-list>

@@ -1,11 +1,7 @@
-html{
-  scroll-behavior: smooth !important;
-  margin: 0 !important;
-  padding: 0 !important;
-  color: white;
-}
-
-body {
+html, body {
+  height: 100%;
   margin: 0;
-  font-family: Roboto, "Helvetica Neue", sans-serif;
+  padding: 0;
+  overflow: hidden; /* prevents global scroll */
+  color: white !important;
 }

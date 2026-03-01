@@ -3,7 +3,6 @@ import { Injectable } from '@angular/core';
 import { CommonConstants } from '../../constants/commonConstants';
 import { environment } from '../../../../environments/environment';
 import { Observable } from 'rxjs';
-import { promises } from 'dns';
 
 @Injectable({
   providedIn: 'root',
@@ -19,15 +18,8 @@ export class AuthService {
     }
   }
 
-  // headers = new HttpHeaders({
-  //   'Content-Type': CommonConstants.CONTENT_TYPE,
-  //   apikeyvalue: environment.apikey,
-  //   Accept: '*/*',
-  // });
-
   LoginUser = (data: any): Observable<any> => {
     const body = new HttpParams({ fromObject: data });
-
     return this.http.post(`${this.BaseUrl}Employee/Login`, body);
   };
 

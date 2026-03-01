@@ -15,7 +15,6 @@ export const userauthGuard: CanActivateFn = (
   const routerservice = inject(Router);
   const authservice = inject(AuthService);
   const tokendata = sessionStorage.getItem('UserToken');
-  debugger;
 
   if (tokendata == null) {
     authservice.removeSessions();

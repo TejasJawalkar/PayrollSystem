@@ -2,7 +2,9 @@
 import { Component, OnInit, signal } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { MaterialModule } from '../../material.module';
-import Swal from 'sweetalert2';
+import { MessageBoxService } from '../../shared/reusable/messageBox/message-box.service';
+import { ShowMessageBoxInput } from '../../core/modules/classes/MessageBoxInput';
+
 import {
   FormBuilder,
   FormControl,
@@ -47,7 +49,8 @@ export class UserloginComponent implements OnInit {
     private logservice: LogService,
     private router: Router,
     private route: ActivatedRoute,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private messsageBoxService: MessageBoxService
   ) {
     this.loginImagePath = ImageConstants.LOGIN_PAGE_IMAGE_URL;
   }
@@ -75,9 +78,7 @@ export class UserloginComponent implements OnInit {
       this.spinner.show();
       this.IsLogged = this.authservices.isLoggedIn();
       if (this.IsLogged) this.router.navigate(['dashboard']);
-      else this.router.navigate(['login']);
       this.spinner.hide();
-
       // setTimeout(() => {
       // }, 5000);
     } catch (error) {}
@@ -102,14 +103,16 @@ export class UserloginComponent implements OnInit {
         this.loginFormGroup.value.Password == ''
       ) {
         this.spinner.hide();
-        Swal.fire({
-          title: 'Error!',
-          text: 'UserName and Password in Required..',
-          icon: 'error',
-          grow: false,
-          confirmButtonText: '',
-          confirmButtonColor: 'white',
-        });
+        this.messsageBoxService.ShowMessageBox(
+          this.getMessageBoxParam(
+            'Error!',
+            'UserName and Password in Required..',
+            'error',
+            false,
+            '',
+            'white'
+          )
+        );
       } else {
         this.authservices
           .LoginUser(this.loginFormGroup.value)
@@ -136,15 +139,17 @@ export class UserloginComponent implements OnInit {
               this.spinner.hide();
               //#endregion
             } else {
-              Swal.fire({
-                title: 'Login Failed',
-                text: 'UserName and Password is Incorrect..',
-                icon: 'error',
-                grow: false,
-                confirmButtonText: 'Retry',
-                confirmButtonColor: '#7066e0',
-              });
               this.spinner.hide();
+              this.messsageBoxService.ShowMessageBox(
+                this.getMessageBoxParam(
+                  'Login Failed',
+                  'UserName and Password is Incorrect..',
+                  'error',
+                  false,
+                  'Retry',
+                  '#7066e0'
+                )
+              );
             }
           });
       }
@@ -168,6 +173,23 @@ export class UserloginComponent implements OnInit {
       new Error().stack?.split('at ')[12].trim().split(' ')[0] || 'Unknown'
     );
   }
-
   //#endregion
+
+  getMessageBoxParam(
+    title: string,
+    text: string,
+    icon: string,
+    grow: boolean,
+    confirmButtonText: string,
+    confirmButtonColor: string
+  ): ShowMessageBoxInput {
+    let messagebox = new ShowMessageBoxInput();
+    messagebox.title = title;
+    messagebox.text = text;
+    (messagebox.icon = icon),
+      (messagebox.grow = grow),
+      (messagebox.confirmButtonText = confirmButtonText),
+      (messagebox.confirmButtonColor = confirmButtonColor);
+    return messagebox;
+  }
 }
